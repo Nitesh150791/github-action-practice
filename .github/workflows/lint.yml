@@ -15,6 +15,14 @@ jobs:
     #This step will automtically clone the current branch into runner
       - name: Checkout the code
         uses: actions/checkout@v7
+        with:
+          python-version: '3:14'
+        
+    #Setup python 
+        
+      - name: Set up python
+        uses: actions/setup-python@v5
+      
         
     #This step install linting tools
       - name: Install Linter
