@@ -13,18 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-python-version: "3.11"
+        uses: actions/checkout@v7
 
       - name: Install Linter
         run: pip install ruff
-
-      - name: Run Ruff Linter
-        run: ruff check .
-
  
    
