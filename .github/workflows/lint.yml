@@ -1,0 +1,20 @@
+#What is goal of workflow 
+#Check syntax and formate are all good 
+
+name: Auto Linter
+
+on:
+  push:
+     paths: "*.py"
+jobs:
+  code:
+   runs-on: ubuntu-latest
+   steps:
+    - name: checkout/clone the code
+      uses: action/checkout@v7
+      
+    - name: Install Linter
+      run: pip install ruff
+      
+ 
+   
