@@ -1,0 +1,59 @@
+# Build the image for Devboard frontend
+name: CI
+on:
+  push:
+    branches: [master]
+
+jobs:
+  code-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4 # Fixed: actions/checkout
+         
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Fixed: actions/setup-node
+        with:
+          node-version: 22
+          cache: 'npm'
+          
+      - name: Install Node.js Dependencies
+        run: npm install --legacy-peer-deps
+        
+      - name: Run ESlint
+        run: npm run lint
+        
+           
+  build-and-push:
+    needs: [code-lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+        
+      # CRITICAL FIX: Set up Docker Buildx properly to enable resource tuning
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker setup
+        uses: docker/login-action@v3 # Fixed: docker/login-action
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: build and push 
+        uses: docker/build-push-action@v6 # Fixed: docker/build-push-action
+        with:
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/docker-fe-master:latest
+          
+
+
+
+
+
+
+
+
+
+
+
