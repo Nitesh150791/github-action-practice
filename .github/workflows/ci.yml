@@ -49,3 +49,50 @@ jobs:
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/docker-fe-frontend:latest
 
+jobs:
+    backend:
+      runs-on: ubuntu-latest
+      
+      # This forces all steps below to run inside the backend folder automatically
+      defaults:
+        run:
+          working-directory: backend
+  
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v7
+  
+        - name: Set up go
+          uses: actions/setup-go@v4
+          with:
+              go-version: '1.23'
+              go-version-file: 'go.mod'
+              cache-dependency-path: backend/go.sum
+
+        - name: Run GO Formatter
+          run: go fmt
+          working-directory: ./backend
+        
+        - name: Run Go vet
+          run: go wet
+          working-directory: ./backend
+  
+        - name: Run Tests
+          run: go test
+          working-directory: ./backend
+          
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
+  
+        - name: Docker setup
+          uses: docker/login-action@v3
+          with:
+            username: ${{ vars.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
+        - name: build and push
+          uses: docker/build-push-action@v6
+          with:
+            context: ./backend
+            push: true
+            tags: ${{ vars.DOCKERHUB_USERNAME }}/docker-be-backend:latest
