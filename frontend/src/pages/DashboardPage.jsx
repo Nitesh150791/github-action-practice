@@ -13,7 +13,6 @@ export function DashboardPage() {
   const firstId = projects[0]?.id;
   const { data: taskData } = useTasks(firstId);
   const tasks = taskData?.tasks || [];
-
   const counts = tasks.reduce(
     (acc, t) => { acc[t.status] = (acc[t.status] || 0) + 1; return acc; },
     {},
@@ -33,7 +32,7 @@ export function DashboardPage() {
               workspace overview
             </span>
           </div>
-          <h1 className="text-[30px] font-semibold leading-none tracking-[-0.6px]">Good to see you, Shubham.</h1>
+          <h1 className="text-[30px] font-semibold leading-none tracking-[-0.6px]">Good to see you, Nitesh.</h1>
           <p className="text-[14px] text-ink-600 dark:text-ink-400 mt-2">
             Here's where your work stands today.
           </p>
