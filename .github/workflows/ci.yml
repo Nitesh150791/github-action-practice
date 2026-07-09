@@ -1,11 +1,11 @@
 name: CI
-on:
-  push:
-      paths:
-        - '**'
-        - '!.github/workflows/**'
-    branches: [ adavance ]
 
+on: 
+    push:
+        # paths:
+        #   - '**'
+        #   - '!.github/workflows/**'
+        branches: [adavance]
 jobs:
   frontend:
     runs-on: ubuntu-latest
