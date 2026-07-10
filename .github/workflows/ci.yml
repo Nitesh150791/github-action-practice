@@ -93,4 +93,4 @@ jobs:
 
     deploy:
         needs: [lint-frontend,lint-backend,build-and-push]
-        uses: ./.github/workflows/cd.ym
+        uses: ./.github/workflows/cd.yml
