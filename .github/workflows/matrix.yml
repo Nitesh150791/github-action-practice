@@ -10,6 +10,8 @@ jobs:
             go-version: [1.19, 1.20, 1.21]
     
       steps:
+         - name: code Checkout
+           uses: action/checkout@v7 
          - name: setup go
            uses: actions/setup-go@v6
            with:
