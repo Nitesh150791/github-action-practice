@@ -28,7 +28,7 @@ jobs:
                 cache-dependency-path: frontend/package-lock.json
             
             - name: Install npm Packages
-              run: npm ci  --legacy-peer-deps
+              run: npm install --legacy-peer-deps
               working-directory: frontend
 
             - name: Run Linter
@@ -59,11 +59,11 @@ jobs:
               working-directory: backend
 
             - name: Run Go Vet
-              run: go vet ./...
+              run: go vet
               working-directory: backend
             
             - name: Run Tests
-              run: go test ./...
+              run: go test 
               working-directory: backend
           
 
@@ -89,10 +89,8 @@ jobs:
                 context: ./${{ matrix.folder}}
                 push: true
                 tags: ${{ vars.DOCKERHUB_USERNAME }}/devboard-${{ matrix.folder}}:latest
-                cache-from: type=ghe
-                cache-to: type=ghe,mode=max
+          
 
     deploy:
         needs: [lint-frontend,lint-backend,build-and-push]
-        uses: ./.github/workflows/cd.yml
-        secrets: inherit
+        uses: ./.github/workflows/cd.ym
