@@ -5,7 +5,7 @@ on:
         # paths:
         #   - '**'
         #   - '!.github/workflows/**'
-        branches: [adavance]
+        branches: [feature]
 jobs:
   frontend:
     runs-on: ubuntu-latest
