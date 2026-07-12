@@ -2,7 +2,7 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [adavance]
 jobs:
   code-lint:
     runs-on: ubuntu-latest
