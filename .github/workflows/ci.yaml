@@ -20,13 +20,21 @@ jobs:
                  
             - name: Install npm package
               run: npm install
-              working-directory: frontend
+              working-directory: frontend 
+             
              
             - name: Run Linter
               run: npm run linter
               working-directory: frontend
 
-            - name: Docker swtup login
+            - name: Run Tests
+              run: npm run test
+              working-directory: frontend
+              
+            - name: Code Quality
+              uses: .github/workflows/code-quality.yaml
+
+            - name: Docker setup login
               uses: docker/login-action@v4
               with:
                  username: ${{ vars.DOCKERHUB_USERNAME }}
