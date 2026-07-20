@@ -17,11 +17,18 @@ jobs:
                 go-version-file: 
                 
             - name: Install Govulncheck
-              run: go install golang.org/x/vuln/cmd/govulncheck@latest
+              run: go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
 
             - name: Go vulncheck
               run: govulncheck ./...
               working-directory: backend
+              
+            - name: upload Reports to artificats
+              uses: actions/upload-artifact@v4
+              with:
+                 name: job-report
+                 path: reports/junit-report.txt
+                 retantion-days: 5
 
             - name: Setup Node Js
               uses: actions/setup-node@v6
