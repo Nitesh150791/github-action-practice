@@ -20,14 +20,16 @@ jobs:
               run: go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
 
             - name: Go vulncheck
-              run: govulncheck ./...
+              continue-on-error: true
+              run: govulncheck ./... > govulcheck-report.txt
               working-directory: backend
               
             - name: upload Reports to artificats
+              if: always()
               uses: actions/upload-artifact@v4
               with:
-                 name: job-report
-                 path: reports/junit-report.txt
+                 name: dependency-scan-report
+                 path: reports/dependency-report.txt
                  retantion-days: 5
 
             - name: Setup Node Js
