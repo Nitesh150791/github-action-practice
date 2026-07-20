@@ -6,4 +6,7 @@ on:
 jobs:
     code-quality:
           uses: ./.github/workflows/code-quality.yaml
+    secret-scanning:
+           uses: ./.github/workflows/secert-scanning.yaml
+           
           
