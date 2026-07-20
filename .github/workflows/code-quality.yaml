@@ -1,7 +1,7 @@
 name: code Quality
 
 on:
-  workflow_call: 
+  workflow_dispatch: 
 
 jobs: 
    sast:
@@ -9,5 +9,36 @@ jobs:
        steps:
           - name: Code Checkout
             uses: actions/checkout@v7
+            
+          - name: Setup NodeJs 
+            uses: action/checkou@v6
+            with:
+               node-version: '20'
+               cache: npm
+               cache-dependency-path: frontend/package-lock.json
+                 
+          - name: Install npm package
+            run: npm install
+            working-directory: frontend 
+            
+          - name: Run Linter
+            run: npm run linter
+            working-directory: frontend  
+            
+          - name: setup GO
+            uses: actions/setup-go@v6
+            with:
+                go-version: '1.23'
+                go-version-file: 'go.mod'
+                go-check-dependency-path: go.sum
+                
+          - name: Run Go Formatter
+            run: go fmt
+            working-directory: backend
+            
+          - name: Run Go Vet
+            run: go vet
+            working-directory: backend
+
           
             
