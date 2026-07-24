@@ -16,6 +16,9 @@ jobs:
     sonar-scan:
        uses: ./.github/workflows/sonar-scan.yaml
        secrets: inherit
+    code-test:
+       uses: ./.github/workflows/code-test.yaml
+       
        
     
        
