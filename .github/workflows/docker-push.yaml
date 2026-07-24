@@ -1,5 +1,5 @@
 # Goal Push the images to DockerHub 
-name: Docker-Push
+name: Docker Push
 
 on: 
     workflow_call:
@@ -27,5 +27,9 @@ jobs:
               with:
                 context: ./${{ matrix.folders}}
                 push: true
+                tags: ${{ vars.DOCKERHUB_USERNAME }}/devboard-${{ matrix.folders}}:latest
+                
+                
+                : true
                 tags: ${{ vars.DOCKERHUB_USERNAME }}/devboard-${{ matrix.folders}}:latest
                 
