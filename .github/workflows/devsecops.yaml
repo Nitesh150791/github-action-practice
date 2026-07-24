@@ -15,6 +15,7 @@ jobs:
        secrets: inherit
     sonar-scan:
        uses: ./.github/workflows/sonar-scan.yaml
+       secrets: inherit
        
     
        
