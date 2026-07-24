@@ -43,12 +43,6 @@ jobs:
                  path: reports/dependency-report.txt
                  retantion-days: 5
 
-            - name: Setup Node Js
-              uses: actions/setup-node@v6
-              with:
-                node-version: '20'
-                cache: npm --legacy-peer-deps
-                cache-dependency-path: frontend/package-lock.json
                 
             
             
