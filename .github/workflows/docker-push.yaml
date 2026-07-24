@@ -1,5 +1,5 @@
 # Goal Push the images to DockerHub 
-name: Docker Push
+name: Docker-Push
 
 on: 
     workflow_call:
