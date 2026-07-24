@@ -1,0 +1,20 @@
+name: Secert scanning
+
+on: 
+   workflow_call:
+
+jobs:
+    scan-secert:
+         runs-on: ubuntu-latest
+         steps:
+            - name: checkout the code
+              uses: actions/checkout@v7
+              with:
+                 fetch-depths: 0
+
+            - name: Gitleaks scanner
+              uses: gitleaks/gitleaks-action@v3
+              env:
+                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+                 
+                 

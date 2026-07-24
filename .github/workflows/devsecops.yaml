@@ -1,0 +1,40 @@
+name: devsecops
+
+on:
+    push:
+        branches: [devsecops]
+jobs:
+    code-quality:
+          uses: ./.github/workflows/code-quality.yaml
+    secret-scanning:
+           uses: ./.github/workflows/secert-scanning.yaml
+    dependency-scanning:
+        uses: ./.github/workflows/dependency-scan.yaml
+    docker-scan:
+       uses: ./.github/workflows/docker-scan.yaml
+       secrets: inherit
+    sonar-scan:
+       uses: ./.github/workflows/sonar-scan.yaml
+       secrets: inherit
+    code-test:
+       uses: ./.github/workflows/code-test.yaml
+    docker-push:
+       uses: ./.github/workflows/docker-push.yaml
+       needs: [code-quality,secret-scanning,dependency-scanning,docker-scan,sonar-scan,code-test,docker-push]
+       secrets: inherit
+    
+    deploy:
+       needs: [docker-push]
+       uses: ./.github/workflows/deploy.yml
+       secrets: inherit
+        
+        
+        
+       
+       
+       
+    
+       
+        
+           
+          

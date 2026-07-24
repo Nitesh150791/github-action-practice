@@ -1,0 +1,48 @@
+name: Dependency scan
+
+on:
+  workflow_call:
+
+jobs:
+    dependency-scan:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v7
+              
+            - name: Setup Go
+              uses: actions/setup-go@v6
+              with:
+                go-version: 1.22
+                go-version-file: 
+                
+            - name: Install Govulncheck
+              run: go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
+
+            - name: Go vulncheck
+              continue-on-error: true
+              run: govulncheck ./... > govulcheck-report.txt
+              working-directory: backend
+              
+            - name: upload Reports to artificats
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                 name: dependency-scan-report
+                 path: reports/dependency-report.txt
+                 retantion-days: 5
+
+            - name: Setup Node Js
+              uses: actions/setup-node@v6
+              with:
+                node-version: '20'
+                cache: npm --legacy-peer-deps
+                cache-dependency-path: frontend/package-lock.json
+                
+            - name: Run Dependency scan for node
+              run: npm audit
+              working-directory: frontend
+            
+
+              
+              
