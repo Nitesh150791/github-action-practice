@@ -4,7 +4,7 @@ name: DevSecOps
 
 on:
     push:
-        branches: [master]
+        branches: [devsecops]
 
 jobs:
 
@@ -51,3 +51,12 @@ jobs:
         needs: [deploy]
         uses: ./.github/workflows/dast.yml
         secrets: inherit
+
+
+
+
+
+
+
+
+
