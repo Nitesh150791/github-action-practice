@@ -1,8 +1,7 @@
-name: CI
+name: Docker Push
 
 on:
-  push:
-      branches: [devsecops]
+  workflow_call: 
 
 jobs:
     frontend:
