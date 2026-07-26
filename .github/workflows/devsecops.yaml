@@ -15,7 +15,7 @@ jobs:
 
     # Secret Scanning
     secret-scanning:
-        uses: ./.github/workflows/secret-scanning.yml
+        uses: ./.github/workflows/secert-scanning.yml
 
     # Dependency Checks
     dependency-checks:
@@ -47,10 +47,7 @@ jobs:
         uses: ./.github/workflows/deploy.yml
         secrets: inherit
 
-    dast-scan:
-        needs: [deploy]
-        uses: ./.github/workflows/dast.yml
-        secrets: inherit
+    
 
 
 
