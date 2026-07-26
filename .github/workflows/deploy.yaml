@@ -1,28 +1,53 @@
-# Goal: To deploy the built images from CI Steps once the CI Worklow is Succeeded
+# Goal - To Run End to End DevSecOps CI Pipeline
 
-name: CD
+name: DevSecOps
 
-on: 
-    workflow_call:
+on:
+    push:
+        branches: [master]
 
 jobs:
+
+    ## ---- CI ----
+    # Code Stage 
+    code-quality:
+        uses: ./.github/workflows/code-quality.yml
+
+    # Secret Scanning
+    secret-scanning:
+        uses: ./.github/workflows/secret-scanning.yml
+
+    # Dependency Checks
+    dependency-checks:
+        uses: ./.github/workflows/dependency-scan.yml
+
+    # Docker Checks
+    docker-checks:
+        uses: ./.github/workflows/docker-scans.yml
+        secrets: inherit 
+
+    # SonarQube
+    sonar-qube:
+        uses: ./.github/workflows/sonar-scan.yml
+        secrets: inherit
+
+    # Code Tests
+    code-tests:
+        uses: ./.github/workflows/code-tests.yml
+
+    # push-to-docker-hub:
+    docker-push:
+        uses: ./.github/workflows/docker-push.yml
+        needs: [code-quality,code-tests,sonar-qube,docker-checks,dependency-checks,secret-scanning]
+        secrets: inherit
+
+    ## ---- CD -----
     deploy:
-        
-        runs-on: self-hosted
-        steps:
-            - name: Code Checkout
-              uses: actions/checkout@v7
+        needs: [docker-push]
+        uses: ./.github/workflows/deploy.yml
+        secrets: inherit
 
-            - name: Copy Example Env to main env
-              run: cp .env.example .env
-
-            - name: Docker Setup [Login]
-              uses: docker/login-action@v4
-              with:
-                username: ${{ vars.DOCKERHUB_USERNAME }}
-                password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-            - name: Deploy the containers with Docker Compose
-              run: |
-                docker compose pull
-                docker compose up -d
+    dast-scan:
+        needs: [deploy]
+        uses: ./.github/workflows/dast.yml
+        secrets: inherit
