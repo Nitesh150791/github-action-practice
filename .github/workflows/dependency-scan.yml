@@ -1,7 +1,9 @@
-name: Dependency scan
+# Goal - I have to ensure the packages & dependencies have been audited for Security
+
+name: Dependecy scan
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
     dependency-scan:
@@ -9,43 +11,37 @@ jobs:
         steps:
             - name: Code Checkout
               uses: actions/checkout@v7
-              
+
             - name: Setup Go
               uses: actions/setup-go@v6
               with:
                 go-version: 1.22
-                go-version-file: 
-                
+                go-version-file: 'go.mod'
+                cache-dependency-path: go.sum
+
             - name: Install Govulncheck
               run: go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
 
-            - name: Go vulncheck
+            - name: GoVulncheck
               continue-on-error: true
-              run: govulncheck ./... > govulcheck-report.txt
+              run: govulncheck ./... > govulncheck-report.txt
               working-directory: backend
 
             - name: Setup Node
               uses: actions/setup-node@v6
               with:
-                  node-version: '20'
-                  cache: npm
-                  cache-dependency-path: frontend/package-lock.json
-                  
-            - name: Run dependency Scan for node
+                node-version: '20'
+                cache: npm
+                cache-dependency-path: frontend/package-lock.json
+
+            - name: Run Dependency Scan for Node
               run: npm audit
               working-directory: frontend
-              
-            - name: upload Reports to artificats
-              if: always()
+
+            - name: Upload Report to Artifacts
+              if: always() # Ensures report uploads even if tests fail
               uses: actions/upload-artifact@v4
               with:
-                 name: dependency-scan-report
-                 path: reports/dependency-report.txt
-                 retantion-days: 5
-
-                
-            
-            
-
-              
-              
+                name: dependency-scan-report
+                path: reports/dependency-report.txt
+                retention-days: 5
