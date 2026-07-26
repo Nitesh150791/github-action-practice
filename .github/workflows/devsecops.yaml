@@ -11,24 +11,24 @@ jobs:
     ## ---- CI ----
     # Code Stage 
     code-quality:
-        uses: ./.github/workflows/code-quality.yml
+        uses: ./.github/workflows/code-quality.yaml
 
     # Secret Scanning
     secret-scanning:
-        uses: ./.github/workflows/secert-scanning.yml
+        uses: ./.github/workflows/secert-scanning.yaml
 
     # Dependency Checks
     dependency-checks:
-        uses: ./.github/workflows/dependency-scan.yml
+        uses: ./.github/workflows/dependency-scan.yaml
 
     # Docker Checks
     docker-checks:
-        uses: ./.github/workflows/docker-scans.yml
+        uses: ./.github/workflows/docker-scans.yaml
         secrets: inherit 
 
     # SonarQube
     sonar-qube:
-        uses: ./.github/workflows/sonar-scan.yml
+        uses: ./.github/workflows/sonar-scan.yaml
         secrets: inherit
 
     # Code Tests
