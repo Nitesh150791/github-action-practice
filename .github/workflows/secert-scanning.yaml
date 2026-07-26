@@ -1,20 +1,19 @@
-name: Secert scanning
+# Goal - to check whether the application code coverage doesn't have security threats/issues
 
-on: 
-   workflow_call:
+name: Sonar Qube Scan
+
+on:
+    workflow_call:
 
 jobs:
-    scan-secert:
-         runs-on: ubuntu-latest
-         steps:
-            - name: checkout the code
+    sonar-scanner:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code Checkout
               uses: actions/checkout@v7
-              with:
-                 fetch-depths: 0
 
-            - name: Gitleaks scanner
-              uses: gitleaks/gitleaks-action@v3
+            - name: SonarQube Scan
+              uses: SonarSource/sonarqube-scan-action@v8.2.0
               env:
-                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-                 
-                 
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
